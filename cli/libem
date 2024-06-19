@@ -24,14 +24,17 @@ def add_common_arguments(parser):
     parser.add_argument("-b", "--browse", dest='browse',
                         help="Enable the browse tool.",
                         action='store_true', default=False)
+    parser.add_argument("-g", "--guess", dest='guess',
+                        help="Match by guessing.",
+                        action='store_true', default=False)
     parser.add_argument("--cot", dest='cot',
                         help="Enable chain of thought.",
                         action='store_true', default=False)
     parser.add_argument("--confidence", dest='confidence',
                         help="Report confidence score.",
                         action='store_true', default=False)
-    parser.add_argument("-g", "--guess", dest='guess',
-                        help="Match by guessing.",
+    parser.add_argument("--clarity", dest='clarity',
+                        help="Report clarity score.",
                         action='store_true', default=False)
 
     # output options
@@ -141,6 +144,8 @@ def match(args):
         configs.append(('libem.match.parameter.cot', True))
     if args.confidence:
         configs.append(('libem.match.parameter.confidence', True))
+    if args.clarity:
+        configs.append(('libem.match.parameter.clarity', True))
     if args.browse:
         configs.append(('libem.match.parameter.tools', tools + ['libem.browse']))
     if args.guess:
@@ -155,13 +160,16 @@ def match(args):
         result = libem.match(args.e1, args.e2)
 
     if args.cot:
-        print("Explanation:\n", result['explanation'])
-        print()
-
-    print("Match:", result['answer'])
+        print("Explanation:")
+        print(result['explanation'])
 
     if args.confidence:
         print("Confidence:", result['confidence'])
+
+    if args.clarity:
+        print("Clarity:", result['clarity'])
+
+    print("Match:", result['answer'])
 
     if args.stats:
         pp = pprint.PrettyPrinter(sort_dicts=False)

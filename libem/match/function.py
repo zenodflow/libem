@@ -38,6 +38,7 @@ def func(left, right) -> dict:
         prompt.rules(),
         prompt.experiences(),
         struct.CoT() if parameter.cot() else "",
+        struct.Clarity() if parameter.clarity() else "",
         struct.Confidence() if parameter.confidence() else "",
         prompt.output(),
     )
@@ -53,7 +54,9 @@ def func(left, right) -> dict:
 
     _prompt = [
         {"role": "system", "content": system_prompt},
+
         *shots,
+
         {"role": "user", "content": match_prompt},
     ]
 
@@ -93,7 +96,7 @@ def parse_output(output: str) -> dict:
     answer = output.pop(0).lower()
     answer = "yes" if "yes" in answer else "no"
 
-    confidence, explanation = None, None
+    confidence, clarity, explanation = None, None, None
 
     if parameter.confidence():
         for i, line in enumerate(output):
@@ -104,11 +107,21 @@ def parse_output(output: str) -> dict:
                 output = output[i + 1:]
                 break
 
+    if parameter.clarity():
+        for i, line in enumerate(output):
+            line = line.lower()
+            if 'clarity score' in line or str.isdigit(line):
+                clarity = ''.join(filter(str.isdigit, line))
+                clarity = int(clarity)
+                output = output[i + 1:]
+                break
+
     if parameter.cot():
         explanation = "\n".join(output[::-1])
 
     return {
         "answer": answer,
         "confidence": confidence,
+        "clarity": clarity,
         "explanation": explanation,
     }

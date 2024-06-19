@@ -241,5 +241,12 @@ CoT = chain_of_thought = Prompt(
 
 Confidence = Prompt(
     default="Give a confidence score from 1 to 5, with 1 being a guess "
-            "and 5 being fully confident, give the score only, do not justify.",
+            "and 5 being fully confident, give the score only, do not justify. "
+            "Format the score as 'confidence score: Answer'.",
+)
+
+Clarity = Prompt(
+    default="Give an ambiguity score from 1 to 5 for the task specification, "
+            "with 1 being very ambiguous and 5 being very clear, give the score only. "
+            "Format the score as 'clarity score: Answer'."
 )

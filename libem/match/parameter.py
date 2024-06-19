@@ -9,10 +9,13 @@ tools = Parameter(
     options=[],
 )
 
-# chain-of-thought and confidence score
+# chain-of-thought, confidence score, and clarity score
 cot = Parameter(
     default=False
 )
 confidence = Parameter(
+    default=False
+)
+clarity = Parameter(
     default=False
 )

@@ -9,5 +9,5 @@ query = Prompt(
 )
 
 output = Prompt(
-    default='Output the entities in the format of JSON, enclosed by """.',
+    default='Output the entities in the JSON format, enclosed by """.',
 )

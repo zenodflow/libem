@@ -140,6 +140,9 @@ def main():
     parser.add_argument("--confidence", dest='confidence',
                         help="Report confidence score.",
                         action='store_true', default=False)
+    parser.add_argument("--clarity", dest='clarity',
+                        help="Report clarity score.",
+                        action='store_true', default=False)
 
     parser.add_argument("-r", "--rules", dest='rules', nargs='*',
                         help="List of rules to add to match.",

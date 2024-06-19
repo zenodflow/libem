@@ -40,6 +40,10 @@ def benchmark(dataset, args):
         libem.calibrate({
             "libem.match.parameter.confidence": True,
         })
+    if args.clarity:
+        libem.calibrate({
+            "libem.match.parameter.clarity": True,
+        })
     if args.rules:
         libem.calibrate({
             "libem.match.prompt.rules": Prompt.Rules(args.rules),
@@ -94,6 +98,7 @@ def benchmark(dataset, args):
                 'label': label,
                 'pred': is_match["answer"],
                 'confidence': is_match["confidence"],
+                'clarity': is_match["clarity"],
                 'explanation': is_match["explanation"],
                 'model_output': model_output,
                 'tools_used': [i['tool'] for i in t.get() if 'tool' in i],
@@ -118,6 +123,7 @@ def benchmark(dataset, args):
             print()
             print(f"Match: {is_match['answer']}; "
                   f"Confidence: {is_match['confidence']}; "
+                  f"Clarity: {is_match['clarity']}; "
                   f"Label: {label}\n")
 
         # check num_pairs stop condition
